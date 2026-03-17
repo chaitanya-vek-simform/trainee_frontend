@@ -1,0 +1,79 @@
+import React, { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
+import { createStudent } from '../services/api';
+
+const CreateStudent = () => {
+    const [formData, setFormData] = useState({ name: '', department: '' });
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState('');
+    const navigate = useNavigate();
+
+    const handleChange = (e) => {
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value
+        });
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setLoading(true);
+        setError('');
+
+        try {
+            await createStudent(formData);
+            navigate('/');
+        } catch (err) {
+            setError(err.response?.data?.message || 'Failed to create student');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    return (
+        <div className="container form-container">
+            <header className="page-header">
+                <h2>Add New Student</h2>
+                <Link to="/" className="btn btn-text">Back to List</Link>
+            </header>
+
+            {error && <div className="error-alert">{error}</div>}
+
+            <form onSubmit={handleSubmit} className="form">
+                <div className="form-group">
+                    <label htmlFor="name">Name</label>
+                    <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        value={formData.name}
+                        onChange={handleChange}
+                        required
+                        className="form-control"
+                        placeholder="Enter student name"
+                    />
+                </div>
+
+                <div className="form-group">
+                    <label htmlFor="department">Department</label>
+                    <input
+                        type="text"
+                        id="department"
+                        name="department"
+                        value={formData.department}
+                        onChange={handleChange}
+                        required
+                        className="form-control"
+                        placeholder="Enter department"
+                    />
+                </div>
+
+                <button type="submit" className="btn btn-primary" disabled={loading}>
+                    {loading ? 'Saving...' : 'Save Student'}
+                </button>
+            </form>
+        </div>
+    );
+};
+
+export default CreateStudent;
