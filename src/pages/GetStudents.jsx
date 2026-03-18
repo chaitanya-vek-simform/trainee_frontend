@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { getStudents } from '../services/api';
+import { getStudents, deleteStudent } from '../services/api';
 
 const GetStudents = () => {
     const [students, setStudents] = useState([]);
@@ -21,6 +21,16 @@ const GetStudents = () => {
 
         fetchStudents();
     }, []);
+
+    const handleDelete = async (id, name) => {
+        if (!window.confirm(`Are you sure you want to delete "${name}"?`)) return;
+        try {
+            await deleteStudent(id);
+            setStudents(prev => prev.filter(s => s.id !== id));
+        } catch (err) {
+            alert('Failed to delete student.');
+        }
+    };
 
     if (loading) return <div className="loading">Loading students...</div>;
     if (error) return <div className="error">{error}</div>;
@@ -57,6 +67,10 @@ const GetStudents = () => {
                                         <Link to={`/update/${student.id}`} state={{ student }} className="btn btn-secondary btn-sm">
                                             Edit
                                         </Link>
+                                        {' '}
+                                        <button onClick={() => handleDelete(student.id, student.name)} className="btn btn-danger btn-sm">
+                                            Delete
+                                        </button>
                                     </td>
                                 </tr>
                             ))}

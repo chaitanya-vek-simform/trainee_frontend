@@ -9,7 +9,7 @@ function App() {
     <Router>
       <div className="app-layout">
         <nav className="navbar">
-          <div className="navbar-brand">Trainee Portal</div>
+          <div className="navbar-brand">Student Management System</div>
         </nav>
         <main className="main-content">
           <Routes>

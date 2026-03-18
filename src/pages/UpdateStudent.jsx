@@ -77,12 +77,6 @@ const UpdateStudent = () => {
                     />
                 </div>
 
-                <div className="form-group mb-0">
-                    <label className="text-muted small">
-                        Note: According to API specification, 'description' acts as an alias for 'department' in the payload.
-                    </label>
-                </div>
-
                 <button type="submit" className="btn btn-primary mt-4" disabled={loading}>
                     {loading ? 'Updating...' : 'Update Student'}
                 </button>

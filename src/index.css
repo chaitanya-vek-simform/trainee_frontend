@@ -213,3 +213,12 @@ h2 {
 
 .mt-4 { margin-top: 1.5rem; }
 .mb-0 { margin-bottom: 0; }
+
+.btn-danger {
+  background-color: var(--danger);
+  color: white;
+}
+
+.btn-danger:hover {
+  background-color: #dc2626;
+}
